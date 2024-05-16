@@ -1,16 +1,23 @@
 import User from "../models/User.js";
+import bcrypt from "bcryptjs";
 
 export const register = async (req, res) => {
   try {
-    const { username, password } = req.body;
-    const user = await User.findOne({ username });
+    const { email, password } = req.body;
+    console.log('email',email);
+    console.log('pass',password);
+    const {user} = await User.findOne({ email });
+    console.log('user',user)
     if (user) {
       return res.json({
-        message: `${user} уже занят!`,
+        message: `${username} уже занят!`,
       });
     }
-    
-    console.log("user", username);
+    const salt = bcrypt.genSaltSync(10);
+    const hash = bcrypt.hashSync(password, salt);
+    const newUser = new User({ username, password: hash });
+    await newUser.save()
+    console.log("salt", salt);
 
     return res.status(200).json({ message: "Success" });
   } catch (error) {

@@ -2,7 +2,8 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
-import authRoute from './routes/auth.js'
+import userRoute from "./routes/user.js";
+import { registerValidation } from "./utils/validation.js";
 
 const app = express();
 dotenv.config();
@@ -15,7 +16,7 @@ app.use(cors());
 app.use(express.json());
 
 //routes
-app.use('/api/auth', authRoute)
+app.use("/api/auth", userRoute);
 
 app.get("/", (req, res) => {
   return res.json({ message: "Hello world!" });
