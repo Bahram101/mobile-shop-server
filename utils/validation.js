@@ -1,5 +1,16 @@
-import { body } from "express-validator";
+import { body, validationResult } from "express-validator";
 
 export const registerValidation = [
-    body('email', 'Неверный формат почты!', isEmail())
-]
+  body("fullName", "Укаите имя").isLength({ min: 3 }),
+  body("email", "Неверный формат почты!").isEmail(),
+  body("password", "Пароль должен быть мин 5 символов").isLength({ min: 5 }),
+  body('avatarUrl').optional()
+];
+
+export const handleValidationErrors = (req,res,next)=>{
+    const errors = validationResult(req)
+    if(!errors.isEmpty()){
+        return res.status(400).json(errors.array())
+    }
+    next()
+}

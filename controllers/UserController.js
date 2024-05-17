@@ -1,25 +1,34 @@
 import User from "../models/User.js";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 export const register = async (req, res) => {
   try {
-    const { email, password } = req.body;
-    console.log('email',email);
-    console.log('pass',password);
-    const {user} = await User.findOne({ email });
-    console.log('user',user)
+    const { fullName, email, password, avatarUrl } = req.body;
+    const user = await User.findOne({ email });
     if (user) {
       return res.json({
-        message: `${username} уже занят!`,
+        message: `${user.email} уже занят!`,
       });
     }
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(password, salt);
-    const newUser = new User({ username, password: hash });
-    await newUser.save()
-    console.log("salt", salt);
+    const doc = new User({ fullName, email, password: hash, avatarUrl });
+    const newUser = await doc.save();
 
-    return res.status(200).json({ message: "Success" });
+    const token = jwt.sign(
+      {
+        _id: newUser._id,
+      },
+      "secret123",
+      { expiresIn: "30d" }
+    );
+
+    const { password, ...userData } = newUser._doc;
+    res.json({ ...userData, token });
+    return res
+      .status(200)
+      .json({ message: "User has been registered successfully" });
   } catch (error) {
     return res.status(500).json({ error: "An error occured!" });
   }

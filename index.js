@@ -3,7 +3,6 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
 import userRoute from "./routes/user.js";
-import { registerValidation } from "./utils/validation.js";
 
 const app = express();
 dotenv.config();
@@ -18,17 +17,11 @@ app.use(express.json());
 //routes
 app.use("/api/auth", userRoute);
 
-app.get("/", (req, res) => {
-  return res.json({ message: "Hello world!" });
-  // return res.send("Hello world!");
-});
-
 const start = async () => {
   try {
     await mongoose.connect(process.env.DB_URL).then(() => {
       console.log("DB is OK");
     });
-
     app.listen(PORT, () => console.log("Server is running!"));
   } catch (err) {
     console.log("error2", err);
