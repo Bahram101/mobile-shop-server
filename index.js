@@ -15,12 +15,12 @@ app.use(cors());
 app.use(express.json());
 
 //routes
-app.use("/api/auth", userRoute);
+app.use("/api/auth", userRoute); 
 
 const start = async () => {
   try {
     await mongoose.connect(process.env.DB_URL).then(() => {
-      console.log("DB is OK");
+      console.log("DB is ok");
     });
     app.listen(PORT, () => console.log("Server is running!"));
   } catch (err) {

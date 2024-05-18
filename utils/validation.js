@@ -7,6 +7,11 @@ export const registerValidation = [
   body('avatarUrl').optional()
 ];
 
+export const loginValidation = [
+  body('email', 'Неверный формат почты').isEmail(),
+  body('password', 'Пароль должен быть мин 5 символов').isLength({min: 5})
+]
+
 export const handleValidationErrors = (req,res,next)=>{
     const errors = validationResult(req)
     if(!errors.isEmpty()){
