@@ -12,6 +12,12 @@ export const loginValidation = [
   body('password', 'Пароль должен быть мин 5 символов').isLength({min: 5})
 ]
 
+export const productCreateValidation = [
+  body('title', 'Введите заголовок товара').isLength({ min: 3 }).isString(),
+  body('description', 'Введите описание товара').isLength({ min: 3 }).isString(), 
+];
+
+
 export const handleValidationErrors = (req,res,next)=>{
     const errors = validationResult(req)
     if(!errors.isEmpty()){

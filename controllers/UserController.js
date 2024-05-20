@@ -1,4 +1,4 @@
-import User from "../models/User.js";
+import UserModel from "../models/UserModel.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
@@ -6,7 +6,7 @@ export const register = async (req, res) => {
   try {
     const pswd = req.body.password;
     const { fullName, email, avatarUrl } = req.body;
-    const user = await User.findOne({ email });
+    const user = await UserModel.findOne({ email });
     if (user) {
       return res.json({
         message: `${user.email} уже занят!`,
@@ -14,7 +14,7 @@ export const register = async (req, res) => {
     }
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(pswd, salt);
-    const doc = new User({ fullName, email, password: hash, avatarUrl });
+    const doc = new UserModel({ fullName, email, password: hash, avatarUrl });
     const newUser = await doc.save();
 
     const token = jwt.sign(
@@ -40,18 +40,16 @@ export const register = async (req, res) => {
 
 export const login = async (req, res) => {
   try {
-    const user = await User.findOne({ email: req.body.email });
+    const user = await UserModel.findOne({ email: req.body.email });
     if (!user) {
       return res.status(404).json({ message: "Пользователь не найден" });
     }
     const isValidPas = await bcrypt.compare(req.body.password, user.password);
-
     if (!isValidPas) {
       return res.status(400).json({
         message: "Неверный логин или пароль",
       });
     }
-
     const token = jwt.sign(
       {
         _id: user._id,
@@ -61,14 +59,11 @@ export const login = async (req, res) => {
         expiresIn: "30d",
       }
     );
-
     const { password, ...userData } = user._doc;
-
     res.json({
       ...userData,
       token,
     });
-
     return res.status(200).json({ message: "Login" });
   } catch (error) {
     return res.status(500).json({ error: "An error occured!" });
@@ -77,11 +72,14 @@ export const login = async (req, res) => {
 
 export const getMe = async (req, res) => {
   try {
-    console.log('getme')
-    console.log('reqreqreq',req)
-    const userId = await User.findById(req.userId)
-    console.log('userId',userId)
-    return res.status(200).json({ message: "Me" });
+    const user = await UserModel.findById(req.userId);
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found!",
+      });
+    }
+    const { password, ...userData } = user._doc;
+    return res.json(userData);
   } catch (error) {
     return res.status(500).json({ error: "An error occured!" });
   }
