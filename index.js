@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import userRoutes from "./routes/userRoutes.js";
 import productRoutes from './routes/productRoutes.js'
+import categoryRoutes from './routes/categoryRoutes.js'
 
 const app = express();
 dotenv.config();
@@ -18,6 +19,7 @@ app.use(express.json());
 //routes
 app.use("/api/auth", userRoutes); 
 app.use("/api/product", productRoutes)
+app.use("/api/category", categoryRoutes)
 
 
 const start = async () => {
