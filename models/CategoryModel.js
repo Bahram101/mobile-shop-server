@@ -10,13 +10,7 @@ const CategorySchema = Schema(
       type: Schema.Types.ObjectId,
       ref: "Category",
       default:null
-    },
-    // children: [
-    //   {
-    //     type: Schema.Types.ObjectId,
-    //     ref: "Category",
-    //   },
-    // ],
+    }
   },
   { timestamps: true }
 );
