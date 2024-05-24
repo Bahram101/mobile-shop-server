@@ -2,7 +2,7 @@ import UserModel from "../models/UserModel.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-export const register = async (req, res) => {
+export const register = async (req, res, next) => {
   try {
     const pswd = req.body.password;
     const { fullName, email, avatarUrl } = req.body;
@@ -33,12 +33,12 @@ export const register = async (req, res) => {
       },
       token,
     });
-  } catch (error) {
-    return res.status(500).json({ error: "An error occured!" });
+  } catch (err) { 
+    next(err);
   }
 };
 
-export const login = async (req, res) => {
+export const login = async (req, res, next) => {
   try {
     const user = await UserModel.findOne({ email: req.body.email });
     if (!user) {
@@ -65,12 +65,12 @@ export const login = async (req, res) => {
       token,
     });
     return res.status(200).json({ message: "Login" });
-  } catch (error) {
-    return res.status(500).json({ error: "An error occured!" });
+  } catch (err) { 
+    next(err);
   }
 };
 
-export const getMe = async (req, res) => {
+export const getMe = async (req, res,next) => {
   try {
     const user = await UserModel.findById(req.userId);
     if (!user) {
@@ -80,7 +80,7 @@ export const getMe = async (req, res) => {
     }
     const { password, ...userData } = user._doc;
     return res.json(userData);
-  } catch (error) {
-    return res.status(500).json({ error: "An error occured!" });
+  } catch (err) { 
+    next(err);
   }
 };

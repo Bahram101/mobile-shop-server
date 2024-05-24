@@ -1,37 +1,51 @@
 import CategoryModel from "../models/CategoryModel.js";
 
 class CategoryController {
-  async create(req, res) {
+  async create(req, res, next) {
     try {
       const category = await CategoryModel.create(req.body);
       res.status(201).json(category);
-    } catch (error) {
-      res.status(500).json({ message: "Internal Server Error!" });
+    } catch (err) {
+      next(err);
     }
   }
 
-  async getAll(req, res) {
+  async getAll(req, res, next) {
     try {
       const allCategories = await CategoryModel.find();
       res.status(200).json(allCategories);
-    } catch (error) {
-      res.status(500).json({
-        message: "An error occured while fetching categories",
-        error,
-      });
+    } catch (err) {
+      next(err);
     }
   }
 
-  async getOne(req, res) { 
+  async getOne(req, res, next) {
     try {
-      const category = await CategoryModel.findById(req.params.id); 
+      const category = await CategoryModel.findById(req.params.id);
       res.status(200).json(category);
-    } catch (error) {
-        console.log('eeeeeeeeeee',error)
-      res.status(500).json({
-        message: "An error occured while fetching category",
-        error,
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async delete(req, res, next) {
+    try {
+      const category = await CategoryModel.findByIdAndDelete(req.params.id);
+      res.status(200).json(category);
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async update(req, res, next) {
+    try {
+      const { body, params } = req;
+      const category = await CategoryModel.findByIdAndUpdate(params.id, body, {
+        new: true,
       });
+      res.status(200).json(category);
+    } catch (err) {
+      next(err);
     }
   }
 }

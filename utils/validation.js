@@ -16,6 +16,9 @@ export const productCreateValidation = [
   body('title', 'Введите заголовок товара').isLength({ min: 3 }).isString(),
   body('description', 'Введите описание товара').isLength({ min: 3 }).isString(), 
 ];
+export const categoryValidation = [
+  body('name', 'Введите название категория').isLength({ min: 3 }).isString(), 
+];
 
 
 export const handleValidationErrors = (req,res,next)=>{

@@ -5,6 +5,7 @@ import cors from "cors";
 import userRoutes from "./routes/userRoutes.js";
 import productRoutes from './routes/productRoutes.js'
 import categoryRoutes from './routes/categoryRoutes.js'
+import errorMiddleware from "./utils/errorMiddleware.js"; 
 
 const app = express();
 dotenv.config();
@@ -20,7 +21,7 @@ app.use(express.json());
 app.use("/api/auth", userRoutes); 
 app.use("/api/product", productRoutes)
 app.use("/api/category", categoryRoutes)
-
+app.use(errorMiddleware)
 
 const start = async () => {
   try {
