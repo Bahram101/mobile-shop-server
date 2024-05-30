@@ -1,23 +1,33 @@
 import ProductModel from "../models/ProductModel.js";
 
 class ProductController {
-  async create(req, res,next) {
+  async create(req, res, next) {
     try {
       const product = await ProductModel.create({
         ...req.body,
         author: req.userId,
       });
       res.status(201).json(product);
-    } catch (err) { 
+    } catch (err) {
       next(err);
     }
   }
 
-  async getAll(req, res,next) {
+  async getAll(req, res, next) {
     try {
-      const allProducts = await ProductModel.find().populate("authorr").exec();
+      const allProducts = await ProductModel.find().populate("author").exec();
       res.status(200).json(allProducts);
-    } catch (err) { 
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async getProductsByCategory(req, res, next) { 
+    try {
+      const products = await ProductModel.find({ categoryId: req.params.id })
+        .exec();
+      res.status(200).json(products);
+    } catch (err) {
       next(err);
     }
   }
@@ -35,7 +45,7 @@ class ProductController {
         return res.status(404).json({ message: "Not found" });
       }
       res.status(200).json(doc);
-    } catch (err) { 
+    } catch (err) {
       next(err);
     }
   }
@@ -44,7 +54,7 @@ class ProductController {
     try {
       const product = await ProductModel.findByIdAndDelete(req.params.id);
       res.status(200).json(product);
-    } catch (err) { 
+    } catch (err) {
       next(err);
     }
   }
@@ -56,7 +66,7 @@ class ProductController {
         new: true,
       });
       res.status(200).json(product);
-    } catch (err) { 
+    } catch (err) {
       next(err);
     }
   }

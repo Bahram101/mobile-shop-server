@@ -15,7 +15,8 @@ router.post(
   productController.create
 );
 router.get("/", productController.getAll);
-router.get("/:id", productController.getOne);
+router.get("/:id", productController.getOne); 
+router.get("/byCategory/:id", productController.getProductsByCategory); 
 router.delete("/:id", checkAuth, productController.delete);
 router.put(
   "/:id",

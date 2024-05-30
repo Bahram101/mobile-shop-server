@@ -24,7 +24,7 @@ class CategoryController {
           categoryMap[category._id] = category;
         });
 
-        console.log('cats', parsedCats);
+        console.log('parsedCats', parsedCats);
         console.log('categoryMap', categoryMap);
       
         // Добавляем подкатегории к родительским категориям
