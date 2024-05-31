@@ -24,8 +24,7 @@ class ProductController {
 
   async getProductsByCategory(req, res, next) { 
     try {
-      const products = await ProductModel.find({ categoryId: req.params.id })
-        .exec();
+      const products = await ProductModel.find({ categoryId: req.params.id }).populate('categoryId').exec()
       res.status(200).json(products);
     } catch (err) {
       next(err);
