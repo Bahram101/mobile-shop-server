@@ -16,9 +16,14 @@ const UserSchema = new mongoose.Schema(
       required: true,
     },
     avatarUrl: {
-      type:String, 
-      default:'https://www.gravatar.com/avatar'
-    }
+      type: String,
+      default: "https://www.gravatar.com/avatar",
+    },
+    role: {
+      type: String,
+      enum: ["user", "admin"],
+      default: "user",
+    },
   },
   {
     timestamps: true,

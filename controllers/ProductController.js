@@ -1,4 +1,6 @@
 import ProductModel from "../models/ProductModel.js";
+import CategoryModel from "../models/CategoryModel.js";
+import mongoose from "mongoose";
 
 class ProductController {
   async create(req, res, next) {
@@ -22,10 +24,21 @@ class ProductController {
     }
   }
 
-  async getProductsByCategory(req, res, next) { 
+  async getProductsByCategory(req, res, next) {
     try {
-      const products = await ProductModel.find({ categoryId: req.params.id }).populate('categoryId').exec()
-      res.status(200).json(products);
+      if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+        return res.status(400).json("Некорректный формат идентификатора категории");
+      }
+      // const category = await CategoryModel.findById(req.params.id);
+
+      // if (!category) {
+      //   return res.status(404).json("Не такого категория");
+      // } else {
+        const products = await ProductModel.find({ categoryId: req.params.id })
+          .populate("categoryId")
+          .exec();
+        return res.status(200).json(products);
+      // }
     } catch (err) {
       next(err);
     }

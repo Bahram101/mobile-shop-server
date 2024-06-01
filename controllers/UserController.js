@@ -42,7 +42,7 @@ export const login = async (req, res, next) => {
   try {
     const user = await UserModel.findOne({ fullName: req.body.fullName });
     if (!user) {
-      return res.status(404).json({ message: "Пользователь не найден" });
+      return res.status(404).json({ message: "Логин или пароль не верный" });
     }
     const isValidPas = await bcrypt.compare(req.body.password, user.password);
     if (!isValidPas) {
