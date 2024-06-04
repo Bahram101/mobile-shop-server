@@ -17,8 +17,15 @@ class ProductController {
 
   async getAll(req, res, next) {
     try {
-      const allProducts = await ProductModel.find().populate("author").exec();
-      res.status(200).json(allProducts);
+      const allProducts = await ProductModel.find() 
+        .populate("categoryId")
+        .exec();
+      const products = allProducts.map((item) => ({
+        ...item._doc,
+        id: item._id,
+      }));
+      console.log("prods", products);
+      res.status(200).json(products);
     } catch (err) {
       next(err);
     }
@@ -27,18 +34,15 @@ class ProductController {
   async getProductsByCategory(req, res, next) {
     try {
       if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-        return res.status(400).json("Некорректный формат идентификатора категории");
+        return res
+          .status(400)
+          .json("Некорректный формат идентификатора категории");
       }
-      // const category = await CategoryModel.findById(req.params.id);
 
-      // if (!category) {
-      //   return res.status(404).json("Не такого категория");
-      // } else {
-        const products = await ProductModel.find({ categoryId: req.params.id })
-          .populate("categoryId")
-          .exec();
-        return res.status(200).json(products);
-      // }
+      const products = await ProductModel.find({ categoryId: req.params.id })
+        .populate("categoryId")
+        .exec();
+      return res.status(200).json(products);
     } catch (err) {
       next(err);
     }
