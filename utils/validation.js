@@ -15,9 +15,10 @@ export const loginValidation = [
 
 export const productCreateValidation = [
   body("title", "Введите заголовок товара").isLength({ min: 3 }).isString(),
-  body("description", "Введите описание товара")
-    .isLength({ min: 3 })
-    .isString(),
+  // body("description", "Введите описание товара")
+  //   .isLength({ min: 3 })
+  //   .isString(),
+  body("categoryId", "Выберите категорию").isString()
 ];
 export const categoryValidation = [
   body("name", "Введите название категория").isLength({ min: 3 }).isString(),
