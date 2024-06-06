@@ -15,7 +15,8 @@ router.post(
   handleValidationErrors,
   CategoryController.create
 );
-router.get("/", CategoryController.getAll);
+router.get("/tree", CategoryController.getAllCategoryTree);
+router.get("/all", CategoryController.getAll);
 router.get("/get-one/:id", CategoryController.getOne);
 router.put(
   "/update/:id",

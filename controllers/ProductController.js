@@ -23,8 +23,7 @@ class ProductController {
       const products = allProducts.map((item) => ({
         ...item._doc,
         id: item._id,
-      }));
-      console.log("prods", products);
+      })); 
       res.status(200).json(products);
     } catch (err) {
       next(err);
