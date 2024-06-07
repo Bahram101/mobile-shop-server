@@ -32,6 +32,10 @@ const ProductSchema = new Schema(
       type: Number,
       default: 0,
     },
+    isExist:{
+      type: Boolean,
+      default: true
+    }
   },
   { timestamps: true }
 );
