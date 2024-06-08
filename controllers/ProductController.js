@@ -17,13 +17,13 @@ class ProductController {
 
   async getAll(req, res, next) {
     try {
-      const allProducts = await ProductModel.find() 
+      const allProducts = await ProductModel.find()
         .populate("categoryId")
         .exec();
       const products = allProducts.map((item) => ({
         ...item._doc,
         id: item._id,
-      })); 
+      }));
       res.status(200).json(products);
     } catch (err) {
       next(err);
@@ -77,12 +77,28 @@ class ProductController {
   async update(req, res, next) {
     try {
       const { body, params } = req;
-      const product = await ProductModel.findByIdAndUpdate(params.id, body, {
+      const product = await ProductModel.findByIdAndUpdate(params.id, {...body, test:'asdf'}, {
         new: true,
       });
       res.status(200).json(product);
     } catch (err) {
       next(err);
+    }
+  }
+
+  async updateProductAvailability(req, res, next) {
+    try {
+      const { body  } = req; 
+      await ProductModel.findByIdAndUpdate(
+        body.id,
+        { availability: body.availability },
+        {
+          new: true,
+        }
+      );
+      res.status(200).json({ message: true });
+    } catch (error) {
+      next(error);
     }
   }
 }

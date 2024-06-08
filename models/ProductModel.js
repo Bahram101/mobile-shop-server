@@ -13,6 +13,7 @@ const ProductSchema = new Schema(
     availability: {
       type: Boolean,
       required: false,
+      default: true,
     },
     categoryId: {
       type: Schema.ObjectId,
@@ -32,10 +33,11 @@ const ProductSchema = new Schema(
       type: Number,
       default: 0,
     },
-    isExist:{
-      type: Boolean,
-      default: true
-    }
+    price: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
   },
   { timestamps: true }
 );

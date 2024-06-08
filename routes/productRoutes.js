@@ -15,8 +15,8 @@ router.post(
   productController.create
 );
 router.get("/", productController.getAll);
-router.get("/:id", productController.getOne); 
-router.get("/byCategory/:id", productController.getProductsByCategory); 
+router.get("/:id", productController.getOne);
+router.get("/byCategory/:id", productController.getProductsByCategory);
 router.delete("/:id", checkAuth, productController.delete);
 router.put(
   "/:id",
@@ -24,6 +24,11 @@ router.put(
   productCreateValidation,
   handleValidationErrors,
   productController.update
+);
+router.post(
+  "/availability",
+  checkAuth,
+  productController.updateProductAvailability
 );
 
 export default router;
