@@ -11,7 +11,7 @@ const app = express();
 dotenv.config();
 
 //constants
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 4444;
 
 //middleware
 app.use(cors());
@@ -28,7 +28,7 @@ const start = async () => {
     await mongoose.connect(process.env.DB_URL).then(() => {
       console.log("DB is ok");
     });
-    app.listen(process.env.PORT || 8080, () => console.log("Server is running!"));
+    app.listen(PORT, () => console.log("Server is running!"));
   } catch (err) {
     console.log("error2", err);
   }
