@@ -28,7 +28,7 @@ const start = async () => {
     await mongoose.connect(process.env.DB_URL).then(() => {
       console.log("DB is ok");
     });
-    app.listen(8080, () => console.log("Server is running!"));
+    app.listen(process.env.PORT || 8080, () => console.log("Server is running!"));
   } catch (err) {
     console.log("error2", err);
   }
