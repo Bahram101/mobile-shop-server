@@ -40,6 +40,7 @@ class ProductController {
 
       const products = await ProductModel.find({ categoryId: req.params.id })
         .populate("categoryId")
+        .sort({ createdAt: 1 }) 
         .exec();
       return res.status(200).json(products);
     } catch (err) {
