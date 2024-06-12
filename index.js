@@ -31,7 +31,7 @@ const start = async () => {
         useUnifiedTopology: true,
       })
       .then(() => {
-        console.log("DB is ok");
+        console.log("db is ok");
       });
     app.listen(PORT, () => console.log("Server is running!"));
   } catch (err) {
