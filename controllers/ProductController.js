@@ -9,7 +9,7 @@ class ProductController {
         ...req.body,
         author: req.userId,
       });
-      res.status(201).json({});
+      return res.status(201).json({message:true});
     } catch (err) {
       next(err);
     }

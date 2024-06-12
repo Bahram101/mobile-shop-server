@@ -1,7 +1,7 @@
 import { body, validationResult } from "express-validator";
 
 export const registerValidation = [
-  body("fullName", "Укаите имя").isLength({ min: 3 }),
+  body("fullName", "Укажите имя").isLength({ min: 3 }),
   body("email", "Неверный формат почты!").isEmail(),
   body("password", "Пароль должен быть мин 5 символов").isLength({ min: 5 }),
   body("avatarUrl").optional(),
@@ -15,7 +15,9 @@ export const loginValidation = [
 
 export const productCreateValidation = [
   body("title", "Введите заголовок товара").isLength({ min: 3 }).isString(),
-  body("categoryId", "Выберите категорию").isString()
+  // body("categoryId", "Выберите категорию").custom(isObjectId).withMessage("Категория не должен быть пустым"),
+  body("categoryId", "Выберите категорию")
+  .notEmpty().withMessage("Категория не должна быть пустой")
 ];
 
 export const categoryValidation = [
