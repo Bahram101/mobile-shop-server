@@ -15,7 +15,6 @@ export const loginValidation = [
 
 export const productCreateValidation = [
   body("title", "Введите заголовок товара").isLength({ min: 3 }).isString(),
-  // body("categoryId", "Выберите категорию").custom(isObjectId).withMessage("Категория не должен быть пустым"),
   body("categoryId", "Выберите категорию")
   .notEmpty().withMessage("Категория не должна быть пустой")
 ];
