@@ -7,8 +7,8 @@ import productRoutes from "./routes/productRoutes.js";
 import categoryRoutes from "./routes/categoryRoutes.js";
 import errorMiddleware from "./utils/errorMiddleware.js";
 
-const app = express();
 dotenv.config();
+const app = express();
 
 //constants
 const PORT = process.env.PORT || 4444;
