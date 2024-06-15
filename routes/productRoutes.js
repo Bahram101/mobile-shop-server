@@ -14,10 +14,6 @@ router.post(
   handleValidationErrors,
   productController.create
 );
-router.get("/", productController.getAll);
-router.get("/:id", productController.getOne);
-router.get("/byCategory/:id", productController.getProductsByCategory);
-router.delete("/:id", checkAuth, productController.delete);
 router.put(
   "/:id",
   checkAuth,
@@ -30,5 +26,10 @@ router.post(
   checkAuth,
   productController.updateProductAvailability
 );
+router.get("/", productController.getAll);
+router.get("/:id", productController.getOne);
+router.get("/byCategory/:id", productController.getProductsByCategory);
+router.get("/search/:query", productController.searchProduct);
+router.delete("/:id", checkAuth, productController.delete);
 
 export default router;

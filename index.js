@@ -20,7 +20,7 @@ app.use(express.json());
 //routes
 app.use("/api/auth", userRoutes);
 app.use("/api/product", productRoutes);
-app.use("/api/category", categoryRoutes);
+app.use("/api/category", categoryRoutes); 
 app.use(errorMiddleware);
 
 const start = async () => {

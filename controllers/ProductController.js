@@ -9,7 +9,7 @@ class ProductController {
         ...req.body,
         author: req.userId,
       });
-      return res.status(201).json({message:true});
+      return res.status(201).json({ message: true });
     } catch (err) {
       next(err);
     }
@@ -40,7 +40,7 @@ class ProductController {
 
       const products = await ProductModel.find({ categoryId: req.params.id })
         .populate("categoryId")
-        .sort({ createdAt: 1 }) 
+        .sort({ createdAt: 1 })
         .exec();
       return res.status(200).json(products);
     } catch (err) {
@@ -78,7 +78,7 @@ class ProductController {
   async update(req, res, next) {
     try {
       const { body, params } = req;
-      const product = await ProductModel.findByIdAndUpdate(params.id, {...body, test:'asdf'}, {
+      const product = await ProductModel.findByIdAndUpdate(params.id, body, {
         new: true,
       });
       res.status(200).json(product);
@@ -89,7 +89,7 @@ class ProductController {
 
   async updateProductAvailability(req, res, next) {
     try {
-      const { body  } = req; 
+      const { body } = req;
       await ProductModel.findByIdAndUpdate(
         body.id,
         { availability: body.availability },
@@ -98,6 +98,23 @@ class ProductController {
         }
       );
       res.status(200).json({ message: true });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async searchProduct(req, res, next) {
+    try {
+      const {
+        params: { query },
+      } = req;
+      const searchCriteria = {};
+
+      if (query) {
+        searchCriteria.title = { $regex: query, $options: "i" };  
+      }
+      const products = await ProductModel.find(searchCriteria); 
+      res.json(products);
     } catch (error) {
       next(error);
     }
